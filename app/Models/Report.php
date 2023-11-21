@@ -23,6 +23,11 @@ class Report extends Model
         return $this->belongsTo(Company::class);
     }
 
+    public function department()
+    {
+        return $this->belongsTo(Department::class);
+    }
+
     public function users()
     {
         return $this->belongsToMany(Report::class, 'user_reports', 'user_id', 'report_id');

@@ -6,6 +6,9 @@ use App\Models\Report;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\QueryController;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\DataController;
+use App\Http\Controllers\Controlador;
+use Carbon\Carbon;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,46 +25,38 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/button', [Controlador::class, 'buttonView']);
+Route::post('/button', [Controlador::class, 'buttonSend']);
+
+Route::get('/DSmaker', function () {
+    return view('DSmaker');
+});
+
 Route::get('/testPico',function(){
     return view('testPico');
 });
-
-Route::get('/tester',function(){
-    return view('tester');
-});
-Route::get('/test-query', 'App\Http\Controllers\QueryController@showForm')->name('test-query-form');
-//Route::post('/execute-query', 'App\Http\Controllers\QueryController@executeQuery')->name('execute-query');
-Route::post('/execute-query', [QueryController::class, 'executeQuery'])->name('execute-query');
-
-
-//Route::get('/query', [Controller::class, 'testEloquent'])->name('query');
-use App\Http\Controllers\Controlador;
-use Carbon\Carbon;
 
 Route::get('/eloquent-form', function () {
     return view('eloquent');
 });
 
-Route::match(['get', 'post'], '/eloquent', [Controlador::class, 'testEloquent'])->name('api.eloquent');
-
-
-Route::get('/options', function () {
-    return view('options');
+Route::get('/test4', function () {
+    return view('test4');
 });
 
-Route::post('/combine-options', function (Illuminate\Http\Request $request) {
-    $combinedOptions = $request->input('option1') . ' -> ' . $request->input('option2'); // Add more options as needed
+Route::match(['get', 'post'], '/eloquent', [Controlador::class, 'testEloquent'])->name('api.eloquent');
 
-    return view('options', ['combinedOptions' => $combinedOptions]);
-})->name('combineOptions');
-
-
+//Route::match(['get', 'post'], '/flask', [ReportController::class, 'connection']);
+Route::post('/flask',[ReportController::class, 'connection'])->withoutMiddleware(['web', 'csrf']);
 
 Route::get('/test',[ReportController::class, 'index']);
+Route::get('/eloquent-form',[ReportController::class, 'replacer']);
 Route::get('/test2',[ReportController::class, 'index2']);
+Route::get('/test3',[ReportController::class, 'index3']);
 Route::get('/test/search',[ReportController::class,'search'])->name('reports.search');
 
 
+Route::post('/guardar-pdf', 'PDFController@guardarPDF');
 Route::resource('users', UserController::class);
 Route::resource('companies', CompanyController::class);
 Route::resource('reports', ReportController::class);

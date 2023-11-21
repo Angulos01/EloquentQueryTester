@@ -17,8 +17,7 @@
         <button class='contrast'>Insert Data</button>
     </div>
     <div class="grid">
-        <button class='contrast'>Model maker</button>
-        <button class='contrast'>Dataset maker</button>
+        <a href="/DSmaker"><button class="contrast">Dataset maker</button></a>
     </div>
   </header>
 </body>
